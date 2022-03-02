@@ -22,13 +22,13 @@ a
   text-decoration: none
 
   &:link
-    color: #02d6f2
+    color: primary
 
   &:visited
-    color: #8a02f2
+    color: primary
 
   &:hover
-    color: #02f296
+    color: secondary
     text-decoration: underline
     transition: 150ms linear
 

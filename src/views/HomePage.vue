@@ -1,3 +1,3 @@
 <template>
-  <h1>Hello World!</h1>
+  <h1 style="text-align: center">Hello School!</h1>
 </template>

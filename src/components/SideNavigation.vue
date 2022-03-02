@@ -1,7 +1,8 @@
 <template>
-  <v-navigation-drawer rail expand-on-hover permanent app width="130">
+  <v-navigation-drawer rail expand-on-hover permanent app>
     <v-list nav dense>
       <v-list-item
+        active-color="primary"
         v-for="(item, i) in navigation_routes"
         :key="i"
         :to="item.path"
@@ -14,11 +15,13 @@
 </template>
 
 <script lang="ts" setup>
-const navigation_routes: {
+type NavigationRoute = {
   name: string;
   path: string;
   icon?: string;
-}[] = [
+};
+
+const navigation_routes: NavigationRoute[] = [
   { name: "home", path: "/", icon: "mdi-home" },
   { name: "about", path: "/about", icon: "mdi-information-variant" },
 ];
