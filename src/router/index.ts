@@ -3,7 +3,6 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import HomePage from "../views/HomePage.vue";
 import AboutPage from "../views/AboutPage.vue";
 import ImportExportPage from "../views/ImportExportPage.vue";
-import ErrorsPage from "../views/ErrorsPage.vue";
 
 import ExtensionPage from "../views/editors/ExtensionPage.vue";
 
@@ -22,11 +21,6 @@ const routes: Array<RouteRecordRaw> = [
     path: "/save",
     name: "import-export",
     component: ImportExportPage,
-  },
-  {
-    path: "/errors",
-    name: "errors",
-    component: ErrorsPage,
   },
   {
     path: "/root",

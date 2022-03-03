@@ -33,7 +33,6 @@ const main_pages: NavigationRoute[] = [
   { name: "home", path: "/", icon: "mdi-home" },
   { name: "about", path: "/about", icon: "mdi-information" },
   { name: "import/export", path: "/save", icon: "mdi-content-save-cog" },
-  { name: "errors", path: "/errors", icon: "mdi-alert" },
 ];
 const edit_pages: NavigationRoute[] = [
   { name: "extension", path: "/root", icon: "mdi-cog" },

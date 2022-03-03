@@ -22,7 +22,7 @@ export default class Extension {
     this.name = xmlUtils.get_text(extension_info, "Name") ?? "NAME NOT FOUND";
     this.description =
       xmlUtils.get_text(extension_info, "Description") ?? "DESCRIPTION NOT FOUND";
-    this.allow_save = xmlUtils.get_bool(extension_info, "all") ?? true;
+    this.allow_save = xmlUtils.get_bool(extension_info, "allow_save") ?? true;
     this.starts_with_tutorial =
       xmlUtils.get_bool(extension_info, "StartsWithTutorial") ?? false;
     this.has_intro_startup =
