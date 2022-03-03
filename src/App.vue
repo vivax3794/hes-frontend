@@ -1,9 +1,10 @@
 <template>
   <v-app>
-    <v-main>
-      <SideNavigation />
+    <TopBar />
+    <SideNavigation />
 
-      <v-container fluid>
+    <v-main>
+      <v-container style="height: 100vh">
         <router-view />
       </v-container>
     </v-main>
@@ -12,4 +13,5 @@
 
 <script lang="ts" setup>
 import SideNavigation from "./components/SideNavigation.vue";
+import TopBar from "./components/TopBar.vue";
 </script>

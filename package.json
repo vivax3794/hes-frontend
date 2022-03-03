@@ -9,13 +9,13 @@
   },
   "dependencies": {
     "@mdi/font": "5.9.55",
+    "@zip.js/zip.js": "^2.4.5",
     "core-js": "^3.8.3",
     "roboto-fontface": "*",
     "vue": "^3.2.13",
     "vue-class-component": "^8.0.0-0",
     "vue-router": "^4.0.3",
     "vuetify": "^3.0.0-alpha.0",
-    "vuex": "^4.0.0",
     "webfontloader": "^1.0.0"
   },
   "devDependencies": {
@@ -54,12 +54,20 @@
     "parserOptions": {
       "ecmaVersion": 2020
     },
-    "rules": {}
+    "rules": {
+      "max-len": [
+        "error",
+        90
+      ]
+    }
   },
   "browserslist": [
     "> 1%",
     "last 2 versions",
     "not dead",
     "not ie 11"
-  ]
+  ],
+  "prettier": {
+    "printWidth": 90
+  }
 }
