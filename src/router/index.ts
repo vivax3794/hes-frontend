@@ -23,14 +23,14 @@ const routes: Array<RouteRecordRaw> = [
     component: ImportExportPage,
   },
   {
-    path: "/root",
+    path: "/ext",
     name: "extension settings",
     component: ExtensionPage,
   },
 ];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 });
 

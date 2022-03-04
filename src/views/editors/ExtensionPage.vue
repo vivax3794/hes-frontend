@@ -5,26 +5,22 @@
     </v-card-header>
 
     <v-container>
-      <v-row>
-        <v-col>
-          <v-text-field
-            v-model="formValues.name"
-            :error-messages="formErrors.name"
-            label="Name"
-            :counter="128"
-            prepend-icon="mdi-form-textbox"
-            @update:model-value="updateName"
-          />
-        </v-col>
-        <v-col>
-          <v-select
-            :items="validLangs"
-            v-model="ext.languague"
-            prepend-icon="mdi-earth"
-            label="Languague"
-          />
-        </v-col>
-      </v-row>
+      <v-text-field
+        v-model="formValues.name"
+        :error-messages="formErrors.name"
+        label="Name"
+        :counter="128"
+        prepend-icon="mdi-form-textbox"
+        @update:model-value="updateName"
+      />
+
+      <v-select
+        :items="validLangs"
+        v-model="ext.languague"
+        prepend-icon="mdi-earth"
+        label="Languague"
+        style="width: 25%"
+      />
       <v-divider />
       <!-- Toogle Setting -->
       <v-switch
@@ -37,12 +33,6 @@
         color="primary"
         label="Boot sequence start"
         v-model="ext.hasIntroStartup"
-        class="toogle-button"
-      />
-      <v-switch
-        color="primary"
-        label="tutorial at start"
-        v-model="ext.startsWithTutorial"
         class="toogle-button"
       />
     </v-container>
@@ -78,13 +68,13 @@ const formErrors: Ref<{ name: string | undefined }> = ref({
 });
 
 async function updateName(): Promise<void> {
-  const name = formValues.value.name;
+  const newName = formValues.value.name;
 
-  if (name.length > 128) {
+  if (newName.length > 128) {
     formErrors.value.name = "Name cant be longer than 128 chars.";
   } else {
     formErrors.value.name = undefined;
-    ext.name = name;
+    ext.name = newName;
   }
 }
 </script>

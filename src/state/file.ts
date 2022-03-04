@@ -33,16 +33,20 @@ export class File {
   }
 }
 export class Folder {
-  private readonly sourceEntry: zip.Entry;
+  private readonly sourceEntry: zip.Entry | null;
+  filename_overwrite: string | null;
   readonly children: FilesystemItem[];
 
-  constructor(selfEntry: zip.Entry, children: FilesystemItem[]) {
+  constructor(selfEntry: zip.Entry | null, children: FilesystemItem[], filename_overwrite: string | null = null) {
     this.sourceEntry = selfEntry;
+    this.filename_overwrite = filename_overwrite;
     this.children = children;
   }
 
   public get filename(): string {
-    return this.sourceEntry.filename;
+    if (this.filename_overwrite) return this.filename_overwrite;
+
+    return this.sourceEntry!.filename;
   }
 
   public getFile(filename: string): FilesystemItem | null {
@@ -59,6 +63,8 @@ function getEntiresContainedIn(entries: zip.Entry[], path: string): zip.Entry[] 
 }
 
 export function parseEntries(entries: zip.Entry[], basePath: string): FilesystemItem[] {
+  console.log("parseEntries", entries, basePath);
+
   return entries
     .filter((entry) => {
       const parts = entry.filename.slice(basePath.length).split("/");
@@ -75,7 +81,9 @@ export function parseEntries(entries: zip.Entry[], basePath: string): Filesystem
 
 export async function parseFromZipReader(
   zipFile: zip.ZipReader
-): Promise<FilesystemItem[]> {
+): Promise<Folder> {
   const entries = await zipFile.getEntries();
-  return parseEntries(entries, "");
+  console.log("ZIP ENTRIES", entries);
+  const folder_name = entries[0].filename.split("/")[0] + "/";
+  return new Folder(null, parseEntries(getEntiresContainedIn(entries, folder_name), folder_name), folder_name);
 }

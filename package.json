@@ -3,54 +3,49 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "lint": "eslint --ext .js,.ts,.vue --ignore-path .gitignore --fix src",
     "types": "vue-tsc --noEmit"
   },
   "dependencies": {
     "@mdi/font": "5.9.55",
+    "@vitejs/plugin-vue": "^1.6.1",
+    "@vuetify/vite-plugin": "^1.0.0-alpha.10",
     "@zip.js/zip.js": "^2.4.5",
-    "core-js": "^3.8.3",
     "roboto-fontface": "*",
+    "vite": "^2.5.4",
     "vue": "^3.2.13",
     "vue-class-component": "^8.0.0-0",
     "vue-router": "^4.0.3",
-    "vuetify": "^3.0.0-alpha.13",
+    "vuetify": "npm:@vuetify/nightly@^3.0.0-next-20220303.0",
+    "vuetify-loader": "^2.0.0-alpha.9",
     "webfontloader": "^1.0.0"
   },
   "devDependencies": {
     "@types/webfontloader": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
-    "@vue/cli-plugin-babel": "~5.0.0",
-    "@vue/cli-plugin-eslint": "~5.0.0",
-    "@vue/cli-plugin-router": "~5.0.0",
-    "@vue/cli-plugin-typescript": "~5.0.0",
-    "@vue/cli-plugin-vuex": "~5.0.0",
-    "@vue/cli-service": "~5.0.0",
     "@vue/eslint-config-standard": "^6.1.0",
     "@vue/eslint-config-typescript": "^9.1.0",
-    "eslint": "^7.32.0",
+    "eslint": "^8.10.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-promise": "^5.1.0",
-    "eslint-plugin-vue": "^8.0.3",
+    "eslint-plugin-vue": "^8.5.0",
     "prettier": "^2.4.1",
     "sass": "^1.38.0",
-    "sass-loader": "^12.0.0",
     "typescript": "~4.5.5",
-    "vue-cli-plugin-vuetify": "~2.4.6",
-    "vue-tsc": "^0.32.1",
-    "vuetify-loader": "^2.0.0-alpha.0"
+    "vue-tsc": "^0.32.1"
   },
   "eslintConfig": {
     "root": true,
     "env": {
-      "node": true,
-      "vue/setup-compiler-macros": true
+      "vue/setup-compiler-macros": true,
+      "es2021": true
     },
     "extends": [
       "plugin:vue/vue3-essential",
@@ -81,9 +76,6 @@
     "printWidth": 90
   },
   "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead",
-    "not ie 11"
+    "es2021"
   ]
 }

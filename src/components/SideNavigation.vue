@@ -35,6 +35,6 @@ const mainPages: NavigationRoute[] = [
   { name: "import/export", path: "/save", icon: "mdi-content-save-cog" },
 ];
 const editPages: NavigationRoute[] = [
-  { name: "extension", path: "/root", icon: "mdi-cog" },
+  { name: "extension", path: "/ext", icon: "mdi-cog" },
 ];
 </script>

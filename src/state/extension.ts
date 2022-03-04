@@ -4,8 +4,11 @@ import * as xmlUtils from "./xmlUtils";
 
 const BLANK_EXTENSION_PATH = "/blank_extension.zip";
 
-function assert(condition: unknown): asserts condition {
-  if (!condition) throw new Error("condition failed");
+function assert(condition: unknown, message: string, object_log_on_failrue: any): asserts condition {
+  if (!condition) {
+    console.log("[ASSERT]", object_log_on_failrue)
+    throw new Error(message);
+  }
 }
 
 export default class Extension {
@@ -13,7 +16,6 @@ export default class Extension {
   name: string;
   description: string;
   allowSave: boolean;
-  startsWithTutorial: boolean;
   hasIntroStartup: boolean;
   introText: string | null;
 
@@ -23,9 +25,8 @@ export default class Extension {
     this.description =
       xmlUtils.getText(extensionInfo, "Description") ?? "DESCRIPTION NOT FOUND";
     this.allowSave = xmlUtils.getBool(extensionInfo, "allow_save") ?? true;
-    this.startsWithTutorial =
-      xmlUtils.getBool(extensionInfo, "StartsWithTutorial") ?? false;
-    this.hasIntroStartup = xmlUtils.getBool(extensionInfo, "HasIntroStartup") ?? false;
+    this.hasIntroStartup =
+      xmlUtils.getBool(extensionInfo, "hasIntroStartup") ?? false;
 
     this.introText = introText;
 
@@ -33,12 +34,11 @@ export default class Extension {
   }
 
   public static async createExtension(zipFile: zip.ZipReader): Promise<Extension> {
-    const rootFiles = await fileSystem.parseFromZipReader(zipFile);
-    const files = rootFiles[0];
-    assert(files instanceof fileSystem.Folder);
+    const files = await fileSystem.parseFromZipReader(zipFile);
+    console.log("FILES", files)
 
     const extensionInfoFile = files.getFile("ExtensionInfo.xml");
-    assert(extensionInfoFile instanceof fileSystem.File);
+    assert(extensionInfoFile instanceof fileSystem.File, "expected ExtensionInfo.xml to be a file.", extensionInfoFile);
     const extensionInfo = await extensionInfoFile.textXml();
 
     const introFile = files.getFile("Intro.txt");
