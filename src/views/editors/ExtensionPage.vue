@@ -5,78 +5,86 @@
     </v-card-header>
 
     <v-container>
-      <v-form @submit="form_submit" ref="form" v-model="valid">
-        <v-row justify="space-around">
-          <v-col>
-            <v-text-field
-              v-model="form_values.name"
-              label="Name"
-              :counter="128"
-              :rules="rules.name"
-              prepend-icon="mdi-form-textbox"
-              @update:model-value="on_change"
-            />
-          </v-col>
-          <v-col>
-            <v-select
-              :items="Object.values(valid_langs)"
-              v-model="form_values.languague"
-              prepend-icon="mdi-earth"
-              label="Languague"
-            />
-          </v-col>
-        </v-row>
-      </v-form>
+      <v-row>
+        <v-col>
+          <v-text-field
+            v-model="formValues.name"
+            :error-messages="formErrors.name"
+            label="Name"
+            :counter="128"
+            prepend-icon="mdi-form-textbox"
+            @update:model-value="updateName"
+          />
+        </v-col>
+        <v-col>
+          <v-select
+            :items="validLangs"
+            v-model="ext.languague"
+            prepend-icon="mdi-earth"
+            label="Languague"
+          />
+        </v-col>
+      </v-row>
+      <v-divider />
+      <!-- Toogle Setting -->
+      <v-switch
+        color="primary"
+        label="Allow Saving"
+        v-model="ext.allowSave"
+        class="toogle-button"
+      />
+      <v-switch
+        color="primary"
+        label="Boot sequence start"
+        v-model="ext.hasIntroStartup"
+        class="toogle-button"
+      />
+      <v-switch
+        color="primary"
+        label="tutorial at start"
+        v-model="ext.startsWithTutorial"
+        class="toogle-button"
+      />
     </v-container>
   </v-card>
 </template>
 
+<style lang="sass">
+.toogle-button
+  height: 40px
+</style>
+
 <script lang="ts" setup>
-import { ref, onBeforeUnmount, Ref } from "vue";
+import { ref, Ref } from "vue";
 import state from "../../state";
-const ext = state.value.current_extension;
+const ext = state.value.currentExtension;
+const validLangs = [
+  { title: "english", value: "en-us" },
+  { title: "german", value: "de-de" },
+  { title: "french", value: "fr-be" },
+  { title: "russian", value: "ru-ru" },
+  { title: "spanish", value: "es-ar" },
+  { title: "korean", value: "ko-kr" },
+  { title: "japanese", value: "ja-jp" },
+  { title: "chinese, simplified", value: "zh-cn" },
+];
 
-// eslint-disable-next-line
-const form: Ref<any | null> = ref(null);
-
-const valid_langs: { [key: string]: string } = {
-  "en-us": "english",
-  "de-de": "german",
-  "fr-be": "french",
-  "ru-ru": "russian",
-  "es-ar": "spanish",
-  "ko-kr": "korean",
-  "ja-jp": "japanese",
-  "zh-cn": "chinese, simplified",
-};
-
-const valid = ref(false);
-const rules = {
-  name: [(name: string) => name.length <= 128 || "name must be shorter than 128 chars"],
-};
-
-const form_values = ref({
+const formValues = ref({
   name: ext.name,
-  languague: valid_langs[ext.languague],
 });
 
-// Validate while typing!
-async function on_change(): Promise<void> {
-  await form.value.validate();
-}
+const formErrors: Ref<{ name: string | undefined }> = ref({
+  name: undefined,
+});
 
-function form_submit(): void {
-  console.log("updating extention with", form_values);
-  ext.name = form_values.value.name;
-  ext.languague = valid_langs[form_values.value.languague];
-}
+async function updateName(): Promise<void> {
+  const name = formValues.value.name;
 
-onBeforeUnmount(async () => {
-  await form.value.validate();
-  if (valid.value) {
-    form_submit();
+  if (name.length > 128) {
+    formErrors.value.name = "Name cant be longer than 128 chars.";
   } else {
-    console.log("INVALID FORM STATE, CAN NOT SAVE");
+    formErrors.value.name = undefined;
+    ext.name = name;
   }
-});
+}
 </script>

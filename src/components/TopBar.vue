@@ -2,7 +2,7 @@
   <v-app-bar app>
     <v-app-bar-title>
       Hacknet IDE:
-      <span id="current_extension">{{ state.current_extension.name }}</span>
+      <span id="current_extension">{{ state.currentExtension.name }}</span>
     </v-app-bar-title>
   </v-app-bar>
 </template>

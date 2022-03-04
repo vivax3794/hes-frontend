@@ -3,7 +3,7 @@
     <v-list nav dense>
       <v-list-item
         active-color="primary"
-        v-for="(item, i) in main_pages"
+        v-for="(item, i) in mainPages"
         :key="i"
         :to="item.path"
         :prepend-icon="item.icon"
@@ -12,7 +12,7 @@
       <v-divider thickness="3" />
       <v-list-item
         active-color="primary"
-        v-for="(item, i) in edit_pages"
+        v-for="(item, i) in editPages"
         :key="i"
         :to="item.path"
         :prepend-icon="item.icon"
@@ -29,12 +29,12 @@ type NavigationRoute = {
   icon: string;
 };
 
-const main_pages: NavigationRoute[] = [
+const mainPages: NavigationRoute[] = [
   { name: "home", path: "/", icon: "mdi-home" },
   { name: "about", path: "/about", icon: "mdi-information" },
   { name: "import/export", path: "/save", icon: "mdi-content-save-cog" },
 ];
-const edit_pages: NavigationRoute[] = [
+const editPages: NavigationRoute[] = [
   { name: "extension", path: "/root", icon: "mdi-cog" },
 ];
 </script>

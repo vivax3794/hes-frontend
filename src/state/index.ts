@@ -2,18 +2,18 @@ import { ref } from "vue";
 import Extension from "./extension";
 
 class GlobalState {
-  current_extension: Extension;
+  currentExtension: Extension;
 
-  constructor(inital_extension: Extension) {
-    this.current_extension = inital_extension;
+  constructor(initalExtension: Extension) {
+    this.currentExtension = initalExtension;
   }
 
-  public static async default_state(): Promise<GlobalState> {
-    const ext = await Extension.create_blank_extension();
+  public static async defaultState(): Promise<GlobalState> {
+    const ext = await Extension.createBlankExtension();
     return new GlobalState(ext);
   }
 }
 
-const state = ref(await GlobalState.default_state());
+const state = ref(await GlobalState.defaultState());
 export default state;
 export { state, Extension };

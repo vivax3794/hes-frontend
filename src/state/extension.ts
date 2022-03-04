@@ -12,51 +12,50 @@ export default class Extension {
   languague: string;
   name: string;
   description: string;
-  allow_save: boolean;
-  starts_with_tutorial: boolean;
-  has_intro_startup: boolean;
-  intro_screen: string | null;
+  allowSave: boolean;
+  startsWithTutorial: boolean;
+  hasIntroStartup: boolean;
+  introText: string | null;
 
-  constructor(extension_info: HTMLElement, intro_screen: string | null) {
-    this.languague = xmlUtils.get_text(extension_info, "Languague") ?? "en-us";
-    this.name = xmlUtils.get_text(extension_info, "Name") ?? "NAME NOT FOUND";
+  constructor(extensionInfo: HTMLElement, introText: string | null) {
+    this.languague = xmlUtils.getText(extensionInfo, "Languague") ?? "en-us";
+    this.name = xmlUtils.getText(extensionInfo, "Name") ?? "NAME NOT FOUND";
     this.description =
-      xmlUtils.get_text(extension_info, "Description") ?? "DESCRIPTION NOT FOUND";
-    this.allow_save = xmlUtils.get_bool(extension_info, "allow_save") ?? true;
-    this.starts_with_tutorial =
-      xmlUtils.get_bool(extension_info, "StartsWithTutorial") ?? false;
-    this.has_intro_startup =
-      xmlUtils.get_bool(extension_info, "HasIntroStartup") ?? false;
+      xmlUtils.getText(extensionInfo, "Description") ?? "DESCRIPTION NOT FOUND";
+    this.allowSave = xmlUtils.getBool(extensionInfo, "allow_save") ?? true;
+    this.startsWithTutorial =
+      xmlUtils.getBool(extensionInfo, "StartsWithTutorial") ?? false;
+    this.hasIntroStartup = xmlUtils.getBool(extensionInfo, "HasIntroStartup") ?? false;
 
-    this.intro_screen = intro_screen;
+    this.introText = introText;
 
     console.log("extension", this);
   }
 
-  public static async create_extension(zip_file: zip.ZipReader): Promise<Extension> {
-    const root_files = await fileSystem.parse_from_zip_reader(zip_file);
-    const files = root_files[0];
+  public static async createExtension(zipFile: zip.ZipReader): Promise<Extension> {
+    const rootFiles = await fileSystem.parseFromZipReader(zipFile);
+    const files = rootFiles[0];
     assert(files instanceof fileSystem.Folder);
 
-    const extension_info = files.get_file("ExtensionInfo.xml");
-    assert(extension_info instanceof fileSystem.File);
-    const extension_info_xml = await extension_info.read_xml();
+    const extensionInfoFile = files.getFile("ExtensionInfo.xml");
+    assert(extensionInfoFile instanceof fileSystem.File);
+    const extensionInfo = await extensionInfoFile.textXml();
 
-    const intro_file = files.get_file("Intro.txt");
-    let intro_text: string | null = null;
-    if (intro_file instanceof fileSystem.File) {
-      intro_text = await intro_file.read_text();
+    const introFile = files.getFile("Intro.txt");
+    let introText: string | null = null;
+    if (introFile instanceof fileSystem.File) {
+      introText = await introFile.readText();
     }
 
-    return new Extension(extension_info_xml, intro_text);
+    return new Extension(extensionInfo, introText);
   }
 
-  public static async create_blank_extension(): Promise<Extension> {
+  public static async createBlankExtension(): Promise<Extension> {
     const domain = location.origin;
-    const file_url = domain + BLANK_EXTENSION_PATH;
+    const fileUrl = domain + BLANK_EXTENSION_PATH;
 
-    console.log(`loading blank extension from ${file_url}`);
-    const zip_file = new zip.ZipReader(new zip.HttpReader(file_url));
-    return await Extension.create_extension(zip_file);
+    console.log(`loading blank extension from ${fileUrl}`);
+    const zipFile = new zip.ZipReader(new zip.HttpReader(fileUrl));
+    return await Extension.createExtension(zipFile);
   }
 }
