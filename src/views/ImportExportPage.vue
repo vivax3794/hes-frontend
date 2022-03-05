@@ -9,9 +9,9 @@
         <v-progress-linear indeterminate v-if="exportLoading" color="primary" />
 
         <v-card-actions>
-          <v-btn color="primary" :disabled="exportLoading" @click="exportClicked"
-            >Export</v-btn
-          >
+          <v-btn color="primary" :disabled="exportLoading" @click="exportClicked">
+            Export
+          </v-btn>
           <v-btn color="secondary">Save</v-btn>
         </v-card-actions>
       </v-card>
@@ -20,12 +20,14 @@
       <v-card>
         <v-card-header> <h1>Import</h1> </v-card-header>
 
-        <v-file-input
-          label="Extension"
-          accept=".zip"
-          prepend-icon="mdi-folder-zip"
-          v-model="importFile"
-        />
+        <v-container style="padding-bottom: 0px">
+          <v-file-input
+            label="Extension"
+            accept=".zip"
+            prepend-icon="mdi-folder-zip"
+            v-model="importFile"
+          />
+        </v-container>
 
         <v-card-actions>
           <v-btn color="red" @click="importClicked">Import</v-btn>
