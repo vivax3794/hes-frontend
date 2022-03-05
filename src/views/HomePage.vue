@@ -1,3 +1,3 @@
 <template>
-  <v-tabs></v-tabs>
+  <h1>Home Page</h1>
 </template>

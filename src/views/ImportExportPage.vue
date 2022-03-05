@@ -5,8 +5,13 @@
         <v-card-header>
           <h1>Export</h1>
         </v-card-header>
+
+        <v-progress-linear indeterminate v-if="exportLoading" color="primary" />
+
         <v-card-actions>
-          <v-btn color="primary">Export</v-btn>
+          <v-btn color="primary" :disabled="exportLoading" @click="exportClicked"
+            >Export</v-btn
+          >
           <v-btn color="secondary">Save</v-btn>
         </v-card-actions>
       </v-card>
@@ -48,5 +53,22 @@ async function importClicked(): Promise<void> {
 
   const newExtension = await Extension.createExtension(zipReader);
   state.value.currentExtension = newExtension;
+}
+
+const exportLoading = ref(false);
+
+async function exportClicked(): Promise<void> {
+  exportLoading.value = true;
+  const [dataUri, fileName] = await state.value.currentExtension.exportExtension();
+
+  // create download link and click it
+  const element = document.createElement("a");
+  element.setAttribute("href", dataUri);
+  element.setAttribute("download", fileName);
+  document.body.appendChild(element);
+  element.click();
+  document.body.removeChild(element);
+
+  exportLoading.value = false;
 }
 </script>

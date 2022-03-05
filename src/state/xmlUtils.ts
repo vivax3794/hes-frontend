@@ -9,3 +9,13 @@ export function getBool(tree: HTMLElement, tag: string): boolean | null {
   if (text === null) return null;
   return text === "true";
 }
+
+export function createXmlWithText(
+  doc: XMLDocument,
+  tag: string,
+  text: string
+): HTMLElement {
+  const node = doc.createElement(tag);
+  node.innerHTML = text;
+  return node;
+}

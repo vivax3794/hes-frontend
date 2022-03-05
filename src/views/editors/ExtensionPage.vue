@@ -1,80 +1,30 @@
 <template>
   <v-card>
-    <v-card-header>
-      <h1>{{ ext.name }}</h1>
-    </v-card-header>
+    <v-tabs v-model="tab" slider-color="secondary">
+      <v-tab value="main">Main Settings</v-tab>
+      <v-tab value="intro-text">Intro Text</v-tab>
+    </v-tabs>
 
-    <v-container>
-      <v-text-field
-        v-model="formValues.name"
-        :error-messages="formErrors.name"
-        label="Name"
-        :counter="128"
-        prepend-icon="mdi-form-textbox"
-        @update:model-value="updateName"
-      />
-
-      <v-select
-        :items="validLangs"
-        v-model="ext.languague"
-        prepend-icon="mdi-earth"
-        label="Languague"
-        style="width: 25%"
-      />
-      <v-divider />
-      <!-- Toogle Setting -->
-      <v-switch
-        color="primary"
-        label="Allow Saving"
-        v-model="ext.allowSave"
-        class="toogle-button"
-      />
-      <v-switch
-        color="primary"
-        label="Boot sequence start"
-        v-model="ext.hasIntroStartup"
-        class="toogle-button"
-      />
-    </v-container>
+    <v-window v-model="tab">
+      <v-window-item value="main">
+        <v-container>
+          <MainSettings />
+        </v-container>
+      </v-window-item>
+      <v-window-item value="intro-text">
+        <v-container>
+          <IntroText />
+        </v-container>
+      </v-window-item>
+    </v-window>
   </v-card>
 </template>
 
-<style lang="sass">
-.toogle-button
-  height: 40px
-</style>
-
 <script lang="ts" setup>
-import { ref, Ref } from "vue";
-import state from "../../state";
-const ext = state.value.currentExtension;
-const validLangs = [
-  { title: "english", value: "en-us" },
-  { title: "german", value: "de-de" },
-  { title: "french", value: "fr-be" },
-  { title: "russian", value: "ru-ru" },
-  { title: "spanish", value: "es-ar" },
-  { title: "korean", value: "ko-kr" },
-  { title: "japanese", value: "ja-jp" },
-  { title: "chinese, simplified", value: "zh-cn" },
-];
+import { ref } from "vue";
 
-const formValues = ref({
-  name: ext.name,
-});
+import MainSettings from "../../components/ExtensionEditor/MainSettings.vue";
+import IntroText from "../../components/ExtensionEditor/IntroText.vue";
 
-const formErrors: Ref<{ name: string | undefined }> = ref({
-  name: undefined,
-});
-
-async function updateName(): Promise<void> {
-  const newName = formValues.value.name;
-
-  if (newName.length > 128) {
-    formErrors.value.name = "Name cant be longer than 128 chars.";
-  } else {
-    formErrors.value.name = undefined;
-    ext.name = newName;
-  }
-}
+const tab = ref("main");
 </script>
