@@ -1,10 +1,10 @@
 <template>
-  <v-app :theme="theme">
+  <v-app :theme="theme" style="height: 100%">
     <TopBar @theme-toggle="toggleTheme" />
     <SideNavigation />
 
     <v-main>
-      <v-container style="height: 100vh">
+      <v-container>
         <router-view />
       </v-container>
     </v-main>

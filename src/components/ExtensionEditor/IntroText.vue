@@ -5,7 +5,7 @@
     v-model="ext.introTextEnabled"
     class="toogle-button"
   />
-  <v-textarea v-model="ext.introText" :disabled="!ext.introTextEnabled" rows="20" />
+  <v-textarea v-model="ext.introText" :disabled="!ext.introTextEnabled" rows="15" />
 </template>
 
 <script lang="ts" setup>
