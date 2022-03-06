@@ -25,12 +25,14 @@
             label="Extension"
             accept=".zip"
             prepend-icon="mdi-folder-zip"
-            v-model="importFile"
+            v-model="importFiles"
           />
         </v-container>
 
         <v-card-actions>
-          <v-btn color="red" @click="importClicked">Import</v-btn>
+          <v-btn color="red" @click="importClicked" :disabled="importFiles.length === 0">
+            Import
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-col>
@@ -43,14 +45,12 @@ import { state, Extension } from "../state";
 
 import { Ref, ref } from "vue";
 
-const importFile: Ref<File[]> = ref([]);
+const importFiles: Ref<File[]> = ref([]);
 
 async function importClicked(): Promise<void> {
-  console.log("import files:", importFile.value);
+  console.log("import files:", importFiles.value);
 
-  if (importFile.value.length !== 1) return;
-
-  const file = importFile.value[0];
+  const file = importFiles.value[0];
   const zipReader = new zip.ZipReader(new zip.BlobReader(file));
 
   const newExtension = await Extension.createExtension(zipReader);

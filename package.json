@@ -4,15 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview",
-    "lint": "eslint --ext .js,.ts,.vue --ignore-path .gitignore --fix src",
-    "types": "vue-tsc --noEmit"
+    "lint": "eslint --ext .js,.ts,.vue --ignore-path .gitignore --fix src & vue-tsc --noEmit"
   },
   "dependencies": {
     "@mdi/font": "5.9.55",
     "@vitejs/plugin-vue": "^1.6.1",
     "@vuetify/vite-plugin": "^1.0.0-alpha.10",
+    "@vueuse/core": "^7.7.1",
     "@zip.js/zip.js": "^2.4.5",
     "roboto-fontface": "*",
     "vite": "^2.5.4",

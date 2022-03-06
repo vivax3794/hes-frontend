@@ -2,7 +2,7 @@ import * as zip from "@zip.js/zip.js";
 import * as fileSystem from "./file";
 import * as xmlUtils from "./xmlUtils";
 
-const BLANK_EXTENSION_PATH = "/blank_extension.zip";
+const BLANK_EXTENSION_PATH = window.location.origin + "/blank_extension.zip";
 
 function assert(
   condition: unknown,
@@ -23,6 +23,7 @@ export default class Extension {
   hasIntroStartup: boolean;
   introText: string;
   introTextEnabled: boolean;
+  newThing = "123";
 
   constructor(extensionInfo: HTMLElement, introText: string | null) {
     this.languague = xmlUtils.getText(extensionInfo, "Languague") ?? "en-us";
@@ -65,11 +66,8 @@ export default class Extension {
   }
 
   public static async createBlankExtension(): Promise<Extension> {
-    const domain = location.origin;
-    const fileUrl = domain + BLANK_EXTENSION_PATH;
-
-    console.log(`loading blank extension from ${fileUrl}`);
-    const zipFile = new zip.ZipReader(new zip.HttpReader(fileUrl));
+    console.log(`loading blank extension from ${BLANK_EXTENSION_PATH}`);
+    const zipFile = new zip.ZipReader(new zip.HttpReader(BLANK_EXTENSION_PATH));
     return await Extension.createExtension(zipFile);
   }
 
