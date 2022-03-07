@@ -27,5 +27,5 @@ import MainSettings from "../../components/ExtensionEditor/MainSettings.vue";
 import IntroText from "../../components/ExtensionEditor/IntroText.vue";
 
 const tab = ref("main");
-console.log(tab.value);
+console.log(tab);
 </script>

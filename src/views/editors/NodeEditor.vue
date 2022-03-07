@@ -6,11 +6,10 @@
         v-for="(node, i) in nodes"
         :key="i"
         :title="node.name"
-        :to="`/node/${node.id}`"
+        :to="`/computer/${node.id}`"
       />
     </v-list>
   </v-navigation-drawer>
-
   <div v-if="selectedNode !== null">
     <h1>{{ selectedNode.name }}</h1>
   </div>

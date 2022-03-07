@@ -36,6 +36,6 @@ const mainPages: NavigationRoute[] = [
 ];
 const editPages: NavigationRoute[] = [
   { name: "extension", path: "/ext", icon: "mdi-cog" },
-  { name: "nodes", path: "/node", icon: "mdi-laptop" },
+  { name: "computers", path: "/computer", icon: "mdi-laptop" },
 ];
 </script>

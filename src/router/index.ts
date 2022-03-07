@@ -29,12 +29,12 @@ const routes: Array<RouteRecordRaw> = [
     component: ExtensionPage,
   },
   {
-    path: "/node",
+    path: "/computer",
     name: "nodes no id",
     component: NodeEditor,
   },
   {
-    path: "/node/:nodeID",
+    path: "/computer/:nodeID",
     name: "nodes",
     component: NodeEditor,
   },
