@@ -29,8 +29,14 @@
           />
         </v-container>
 
+        <v-progress-linear indeterminate v-if="importLoading" color="red" />
+
         <v-card-actions>
-          <v-btn color="red" @click="importClicked" :disabled="importFiles.length === 0">
+          <v-btn
+            color="red"
+            @click="importClicked"
+            :disabled="importFiles.length === 0 || importLoading"
+          >
             Import
           </v-btn>
         </v-card-actions>
@@ -47,7 +53,10 @@ import { Ref, ref } from "vue";
 
 const importFiles: Ref<File[]> = ref([]);
 
+const importLoading = ref(false);
+
 async function importClicked(): Promise<void> {
+  importLoading.value = true;
   console.log("import files:", importFiles.value);
 
   const file = importFiles.value[0];
@@ -55,6 +64,7 @@ async function importClicked(): Promise<void> {
 
   const newExtension = await Extension.createExtension(zipReader);
   state.value.currentExtension = newExtension;
+  importLoading.value = false;
 }
 
 const exportLoading = ref(false);

@@ -1,6 +1,7 @@
 import * as zip from "@zip.js/zip.js";
 import * as fileSystem from "./file";
 import * as xmlUtils from "./xmlUtils";
+import Node from "./node";
 
 const BLANK_EXTENSION_PATH = window.location.origin + "/blank_extension.zip";
 
@@ -23,7 +24,8 @@ export default class Extension {
   hasIntroStartup: boolean;
   introText: string;
   introTextEnabled: boolean;
-  newThing = "123";
+
+  nodes: { [key: string]: Node } = {};
 
   constructor(extensionInfo: HTMLElement, introText: string | null) {
     this.languague = xmlUtils.getText(extensionInfo, "Languague") ?? "en-us";
@@ -54,7 +56,7 @@ export default class Extension {
       "expected ExtensionInfo.xml to be a file.",
       extensionInfoFile
     );
-    const extensionInfo = await extensionInfoFile.textXml();
+    const extensionInfo = await extensionInfoFile.readXml();
 
     const introFile = files.getFile("Intro.txt");
     let introText: string | null = null;
@@ -62,7 +64,28 @@ export default class Extension {
       introText = await introFile.readText();
     }
 
-    return new Extension(extensionInfo, introText);
+    const ext = new Extension(extensionInfo, introText);
+
+    // Load nodes
+    async function loadNodes(file: fileSystem.FilesystemItem) {
+      if (file instanceof fileSystem.Folder) {
+        for (let item of file.children) {
+          await loadNodes(item);
+        }
+      } else {
+        const xml = await file.readXml();
+        const node = Node.loadFromXml(xml);
+        ext.nodes[node.id] = node;
+      }
+    }
+
+    const nodesFolder = files.getFile("Nodes");
+    if (nodesFolder === null) throw Error("Nodes folder not found");
+    await loadNodes(nodesFolder);
+
+    console.log(ext.nodes);
+
+    return ext;
   }
 
   public static async createBlankExtension(): Promise<Extension> {

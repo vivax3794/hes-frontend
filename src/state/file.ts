@@ -22,7 +22,7 @@ export class File {
     return await this.sourceEntry.getData(new zip.TextWriter());
   }
 
-  public async textXml(): Promise<HTMLElement> {
+  public async readXml(): Promise<HTMLElement> {
     const xmlString = await this.readText();
     const parser = new DOMParser();
     const document: XMLDocument = parser.parseFromString(xmlString, "application/xml");
@@ -52,7 +52,7 @@ export class Folder {
     if (this.sourceEntry === null)
       throw Error("sourceEntry and filename_overwrite both null");
 
-    return this.sourceEntry.filename;
+    return this.sourceEntry.filename.split("/").splice(-2)[0];
   }
 
   public getFile(filename: string): FilesystemItem | null {

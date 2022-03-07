@@ -5,6 +5,7 @@ import AboutPage from "../views/AboutPage.vue";
 import ImportExportPage from "../views/ImportExportPage.vue";
 
 import ExtensionPage from "../views/editors/ExtensionPage.vue";
+import NodeEditor from "../views/editors/NodeEditor.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -26,6 +27,16 @@ const routes: Array<RouteRecordRaw> = [
     path: "/ext",
     name: "extension settings",
     component: ExtensionPage,
+  },
+  {
+    path: "/node",
+    name: "nodes no id",
+    component: NodeEditor,
+  },
+  {
+    path: "/node/:nodeID",
+    name: "nodes",
+    component: NodeEditor,
   },
 ];
 
