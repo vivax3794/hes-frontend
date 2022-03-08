@@ -45,14 +45,14 @@ import { ref, Ref } from "vue";
 import state from "../../state";
 const ext = state.value.currentExtension;
 const validLangs = [
-  { text: "english", value: "en-us" },
-  { text: "german", value: "de-de" },
-  { text: "french", value: "fr-be" },
-  { text: "russian", value: "ru-ru" },
-  { text: "spanish", value: "es-ar" },
-  { text: "korean", value: "ko-kr" },
-  { text: "japanese", value: "ja-jp" },
-  { text: "chinese, simplified", value: "zh-cn" },
+  { title: "english", value: "en-us" },
+  { title: "german", value: "de-de" },
+  { title: "french", value: "fr-be" },
+  { title: "russian", value: "ru-ru" },
+  { title: "spanish", value: "es-ar" },
+  { title: "korean", value: "ko-kr" },
+  { title: "japanese", value: "ja-jp" },
+  { title: "chinese, simplified", value: "zh-cn" },
 ];
 
 const nameValue = ref(ext.name);

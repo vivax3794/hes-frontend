@@ -16,6 +16,9 @@ function assert(
   }
 }
 
+export type NodeFolder = { name: string; children: NodeFolderStructure[] };
+export type NodeFolderStructure = Node | NodeFolder;
+
 export default class Extension {
   languague: string;
   name: string;
@@ -25,7 +28,8 @@ export default class Extension {
   introText: string;
   introTextEnabled: boolean;
 
-  nodes: { [key: string]: Node } = {};
+  nodesMapping: { [key: string]: Node } = {};
+  nodeFolders: NodeFolderStructure[] = [];
 
   constructor(extensionInfo: HTMLElement, introText: string | null) {
     this.languague = xmlUtils.getText(extensionInfo, "Languague") ?? "en-us";
@@ -67,23 +71,31 @@ export default class Extension {
     const ext = new Extension(extensionInfo, introText);
 
     // Load nodes
-    async function loadNodes(file: fileSystem.FilesystemItem) {
+    async function loadNodes(
+      file: fileSystem.FilesystemItem,
+      folderArray: NodeFolderStructure[]
+    ) {
       if (file instanceof fileSystem.Folder) {
-        for (let item of file.children) {
-          await loadNodes(item);
+        const newFolder = { name: file.filename, children: [] };
+        for (const item of file.children) {
+          await loadNodes(item, newFolder.children);
         }
+        folderArray.push(newFolder);
       } else {
         const xml = await file.readXml();
         const node = Node.loadFromXml(xml);
-        ext.nodes[node.id] = node;
+        ext.nodesMapping[node.id] = node;
+        folderArray.push(node);
       }
     }
 
     const nodesFolder = files.getFile("Nodes");
     if (nodesFolder === null) throw Error("Nodes folder not found");
-    await loadNodes(nodesFolder);
+    await loadNodes(nodesFolder, ext.nodeFolders);
+    ext.nodeFolders = (ext.nodeFolders[0] as NodeFolder).children; // unpack Nodes folder
 
-    console.log(ext.nodes);
+    console.log(ext.nodesMapping);
+    console.log(ext.nodeFolders);
 
     return ext;
   }

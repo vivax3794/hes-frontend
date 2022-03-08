@@ -2,22 +2,23 @@ import * as xmlUtils from "./xmlUtils";
 
 export default class Node {
   id: string;
-  name: string = "No Name Given";
+  name = "No Name Given";
   ip: string | null = null;
   adminPass: string | null = null;
   accounts: { username: string; password: string; type: string }[] = [];
   ports: string[] = [];
   proxyTime: number | null = null;
-  portsToCrack: number = 101;
+  portsToCrack = 101;
   firewall: {
     level: number;
     solution: string | null;
     additionalTime: number;
   } | null = null;
+
   trace: number | null = null;
   // adminType: { type: string; resetPassword: boolean; isSuper: boolean } | null = null;
   // portOverwrites: { [key: number]: number } = {};
-  tracker: boolean = false;
+  tracker = false;
 
   constructor(id: string) {
     this.id = id;
@@ -47,7 +48,7 @@ export default class Node {
       node.proxyTime = parseInt(proxyElements[0].getAttribute("time") ?? "-1");
     }
     node.portsToCrack = parseInt(
-      root.getElementsByTagName("portsForCrack")[0].getAttribute("val") ?? "101"
+      root.getElementsByTagName("portsForCrack")[0]?.getAttribute("val") ?? "101"
     );
     const firewallElements = root.getElementsByTagName("firewall");
     if (firewallElements.length >= 1) {

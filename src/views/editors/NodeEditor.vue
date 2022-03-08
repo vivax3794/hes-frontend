@@ -1,13 +1,7 @@
 <template>
   <v-navigation-drawer permanent>
     <v-list>
-      <v-list-item
-        active-color="secondary"
-        v-for="(node, i) in nodes"
-        :key="i"
-        :title="node.name"
-        :to="`/computer/${node.id}`"
-      />
+      <NodeList v-for="(item, i) in ext.nodeFolders" :key="i" :node="item" />
     </v-list>
   </v-navigation-drawer>
   <div v-if="selectedNode !== null">
@@ -22,9 +16,11 @@ import { useRoute } from "vue-router";
 import state from "../../state";
 import Node from "../../state/node";
 
-const nodes = state.value.currentExtension.nodes;
+import NodeList from "../../components/NodeEditor/NodeList.vue";
+
+const ext = state.value.currentExtension;
 const route = useRoute();
 const selectedNode: ComputedRef<Node | null> = computed(
-  () => nodes[route.params.nodeID as string] ?? null
+  () => ext.nodesMapping[route.params.nodeID as string] ?? null
 );
 </script>
