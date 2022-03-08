@@ -1,9 +1,7 @@
-import * as xmlUtils from "./xmlUtils";
-
 export default class Node {
   id: string;
   name = "No Name Given";
-  ip: string | null = null;
+  ip = "";
   adminPass: string | null = null;
   accounts: { username: string; password: string; type: string }[] = [];
   ports: string[] = [];
@@ -28,7 +26,7 @@ export default class Node {
     const node = new Node(root.getAttribute("id") ?? "NO ID FOUND");
 
     node.name = root.getAttribute("name") ?? "NO NAME FOUND";
-    node.ip = root.getAttribute("ip");
+    node.ip = root.getAttribute("ip") ?? "";
     node.adminPass =
       root.getElementsByTagName("adminPass")[0]?.getAttribute("pass") ?? null;
     node.accounts = [...root.getElementsByTagName("account")].map((element) => {

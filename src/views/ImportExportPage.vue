@@ -9,7 +9,11 @@
         <v-progress-linear indeterminate v-if="exportLoading" color="primary" />
 
         <v-card-actions>
-          <v-btn color="primary" :disabled="exportLoading" @click="exportClicked">
+          <v-btn
+            :color="exportLoading ? 'gray' : 'primary'"
+            :disabled="exportLoading"
+            @click="exportClicked"
+          >
             Export
           </v-btn>
           <v-btn color="secondary">Save</v-btn>
@@ -33,7 +37,7 @@
 
         <v-card-actions>
           <v-btn
-            color="red"
+            :color="importFiles.length === 0 || importLoading ? 'gray' : 'red'"
             @click="importClicked"
             :disabled="importFiles.length === 0 || importLoading"
           >

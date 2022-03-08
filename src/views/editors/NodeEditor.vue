@@ -5,7 +5,11 @@
     </v-list>
   </v-navigation-drawer>
   <div v-if="selectedNode !== null">
-    <h1>{{ selectedNode.name }}</h1>
+    <v-card>
+      <v-container>
+        <MainSettings :nodeID="selectedNode.id" />
+      </v-container>
+    </v-card>
   </div>
 </template>
 
@@ -17,6 +21,7 @@ import state from "../../state";
 import Node from "../../state/node";
 
 import NodeList from "../../components/NodeEditor/NodeList.vue";
+import MainSettings from "../../components/NodeEditor/MainSettings.vue";
 
 const ext = state.value.currentExtension;
 const route = useRoute();
