@@ -75,18 +75,24 @@ export default class Extension {
       file: fileSystem.FilesystemItem,
       folderArray: NodeFolderStructure[]
     ) {
+      const promises = [];
       if (file instanceof fileSystem.Folder) {
         const newFolder = { name: file.filename, children: [] };
         for (const item of file.children) {
-          await loadNodes(item, newFolder.children);
+          promises.push(loadNodes(item, newFolder.children));
         }
         folderArray.push(newFolder);
       } else {
-        const xml = await file.readXml();
-        const node = Node.loadFromXml(xml);
-        ext.nodesMapping[node.id] = node;
-        folderArray.push(node);
+        promises.push(
+          file.readXml().then((xml) => {
+            const node = Node.loadFromXml(xml);
+            ext.nodesMapping[node.id] = node;
+            folderArray.push(node);
+          })
+        );
       }
+
+      await Promise.all(promises);
     }
 
     const nodesFolder = files.getFile("Nodes");
@@ -150,9 +156,45 @@ export default class Extension {
     console.log(dataUri);
     return [dataUri, folderName + ".zip"];
   }
+
+  /**
+   Create new node
+
+   @returns the id of the new node 
+   */
+  public createNewNode(folder: NodeFolderStructure[]): string {
+    const newNodeId = createRandomString(Object.keys(this.nodesMapping));
+    const newNode = new Node(newNodeId);
+
+    this.nodesMapping[newNodeId] = newNode;
+    folder.push(newNode);
+
+    return newNodeId;
+  }
+
+  public createNewNodeFolder(parentFolder: NodeFolderStructure[]): void {
+    parentFolder.push({ name: "unamed folder", children: [] });
+  }
 }
 
 function createTextReader(text: string): zip.BlobReader {
   const blob = new Blob([text], { type: "text/plain" });
   return new zip.BlobReader(blob);
+}
+
+function createRandomString(exsisting: string[]): string {
+  const letters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz".split(
+    ""
+  );
+
+  while (true) {
+    let id = "";
+    for (let i = 0; i < 20; i++) {
+      id += letters[Math.floor(Math.random() * letters.length)];
+    }
+
+    if (!exsisting.includes(id)) {
+      return id;
+    }
+  }
 }

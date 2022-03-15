@@ -6,7 +6,8 @@ export default class Node {
   accounts: { username: string; password: string; type: string }[] = [];
   ports: string[] = [];
   proxyTime: number | null = null;
-  portsToCrack = 101;
+  portsToCrack = 0;
+  impossibleToCrack = false;
   firewall: {
     level: number;
     solution: string | null;
@@ -48,6 +49,9 @@ export default class Node {
     node.portsToCrack = parseInt(
       root.getElementsByTagName("portsForCrack")[0]?.getAttribute("val") ?? "101"
     );
+    if (node.portsToCrack >= 100) {
+      node.impossibleToCrack = true;
+    }
     const firewallElements = root.getElementsByTagName("firewall");
     if (firewallElements.length >= 1) {
       node.firewall = {

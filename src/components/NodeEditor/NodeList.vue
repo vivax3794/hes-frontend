@@ -4,6 +4,21 @@
       <v-list-item :title="parentProps.node.name" v-bind="props" />
     </template>
 
+    <v-list-item
+      title="New Node"
+      append-icon="mdi-plus"
+      color="green"
+      @click="createNode"
+    />
+
+    <v-list-item
+      title="New Folder"
+      append-icon="mdi-plus"
+      color="green"
+      @click="ext.createNewNodeFolder(parentProps.node.children)"
+    />
+    <v-divider />
+
     <NodeList v-for="(item, i) in parentProps.node.children" :key="i" :node="item" />
   </v-list-group>
   <v-list-item
@@ -15,8 +30,16 @@
 </template>
 
 <script lang="ts" setup>
-// import Node from "../../state/node";
-// import { type NodeFolderStructure, type NodeFolder } from "../../state/extension";
+import router from "../../router";
+import state from "../../state";
 
 const parentProps = defineProps(["node"]);
+
+const ext = state.value.currentExtension;
+
+function createNode(): void {
+  const newId = ext.createNewNode(parentProps.node.children);
+  console.log("redirected to new node:", newId);
+  router.push(`/computer/${newId}`);
+}
 </script>
